@@ -2,9 +2,12 @@ import "./sidebar.css";
 import { assets } from "../../assets/assets";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
+import { SavedPromptsModal } from "./SavedPromptsModal";
+
 const Sidebar = () => {
 	const [extended, setExtended] = useState(false);
 	const { onSent, prevPrompts, setRecentPrompt, newChat } = useContext(Context);
+	const [showSavedPrompts, setShowSavedPrompts] = useState(false);
 
 	const loadPreviousPrompt = async (prompt) => {
 		setRecentPrompt(prompt);
@@ -21,10 +24,19 @@ const Sidebar = () => {
 						setExtended((prev) => !prev);
 					}}
 				/>
+				<img
+					src={assets.bookmark_icon}
+					className="menu"
+					alt="bookmark-icon"
+					onClick={() => setShowSavedPrompts(true)}
+				/>
+				{showSavedPrompts && (
+	<SavedPromptsModal onClose={() => setShowSavedPrompts(false)} />
+)}
 				<div className="new-chat">
-					<img src={assets.plus_icon} alt="" onClick={()=>{
-                        newChat()
-                    }} />
+					<img src={assets.plus_icon} alt="" onClick={() => {
+						newChat()
+					}} />
 					{extended ? <p>New Chat</p> : null}
 				</div>
 				{extended ? (
@@ -32,9 +44,9 @@ const Sidebar = () => {
 						<p className="recent-title">Recent</p>
 						{prevPrompts.map((item, index) => {
 							return (
-								<div onClick={()=>{
-                                    loadPreviousPrompt(item)
-                                }} className="recent-entry">
+								<div onClick={() => {
+									loadPreviousPrompt(item)
+								}} className="recent-entry">
 									<img src={assets.message_icon} alt="" />
 									<p>{item.slice(0, 18)}...</p>
 								</div>
