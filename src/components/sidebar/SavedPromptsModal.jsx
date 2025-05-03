@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./savedPromptsModal.css";
 
 export const SavedPromptsModal = ({ onClose }) => {
@@ -8,15 +8,36 @@ export const SavedPromptsModal = ({ onClose }) => {
 	const [search, setSearch] = useState("");
 	const [newPromptModal, setNewPromptModal] = useState(false);
 
+	useEffect(() => {
+		const saved = JSON.parse(localStorage.getItem("savedPrompts")) || [];
+		setPrompts(saved);
+		const cats = [...new Set(saved.map(p => p.category))];
+		setCategories(["General", ...cats]);
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("savedPrompts", JSON.stringify(prompts));
+	}, [prompts]);
+
 	const filteredPrompts = prompts.filter(p =>
 		(search === "" || p.text.toLowerCase().includes(search.toLowerCase())) &&
 		(filter === "" || p.category === filter)
 	);
 
 	const addPrompt = (text, category) => {
-		setPrompts([...prompts, { text, category }]);
+		const newPrompts = [...prompts, { text, category }];
+		setPrompts(newPrompts);
 		if (!categories.includes(category)) {
 			setCategories([...categories, category]);
+		}
+	};
+
+	const copyToClipboard = async (text) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			alert("Prompt copied!");
+		} catch (err) {
+			alert("Failed to copy prompt.");
 		}
 	};
 
@@ -38,10 +59,12 @@ export const SavedPromptsModal = ({ onClose }) => {
 				<button onClick={() => setNewPromptModal(true)}>＋</button>
 				<button onClick={onClose}>✕</button>
 			</div>
+
 			<div className="prompt-list">
 				{filteredPrompts.map((p, i) => (
 					<div key={i} className="prompt-item">
 						<strong>{p.category}</strong>: {p.text}
+						<button onClick={() => copyToClipboard(p.text)}>📋</button>
 					</div>
 				))}
 			</div>
