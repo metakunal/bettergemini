@@ -12,12 +12,18 @@ export const SavedPromptsModal = ({ onClose }) => {
 		const saved = JSON.parse(localStorage.getItem("savedPrompts")) || [];
 		setPrompts(saved);
 		const cats = [...new Set(saved.map(p => p.category))];
-		setCategories(["General", ...cats]);
+		setCategories(["General", ...cats.filter(cat => cat !== "General")]);
 	}, []);
 
 	useEffect(() => {
 		localStorage.setItem("savedPrompts", JSON.stringify(prompts));
+		updateCategories(prompts);
 	}, [prompts]);
+
+	const updateCategories = (promptList) => {
+		const usedCats = [...new Set(promptList.map(p => p.category))];
+		setCategories(["General", ...usedCats.filter(cat => cat !== "General")]);
+	};
 
 	const filteredPrompts = prompts.filter(p =>
 		(search === "" || p.text.toLowerCase().includes(search.toLowerCase())) &&
@@ -27,9 +33,11 @@ export const SavedPromptsModal = ({ onClose }) => {
 	const addPrompt = (text, category) => {
 		const newPrompts = [...prompts, { text, category }];
 		setPrompts(newPrompts);
-		if (!categories.includes(category)) {
-			setCategories([...categories, category]);
-		}
+	};
+
+	const deletePrompt = (indexToDelete) => {
+		const updatedPrompts = prompts.filter((_, i) => i !== indexToDelete);
+		setPrompts(updatedPrompts);
 	};
 
 	const copyToClipboard = async (text) => {
@@ -37,7 +45,7 @@ export const SavedPromptsModal = ({ onClose }) => {
 			await navigator.clipboard.writeText(text);
 			alert("Prompt copied!");
 		} catch (err) {
-			alert("Failed to copy prompt.");
+			alert("Failed to copy.");
 		}
 	};
 
@@ -63,8 +71,13 @@ export const SavedPromptsModal = ({ onClose }) => {
 			<div className="prompt-list">
 				{filteredPrompts.map((p, i) => (
 					<div key={i} className="prompt-item">
-						<strong>{p.category}</strong>: {p.text}
-						<button onClick={() => copyToClipboard(p.text)}>📋</button>
+						<div>
+							<strong>{p.category}</strong>: {p.text}
+						</div>
+						<div className="prompt-actions">
+							<button onClick={() => copyToClipboard(p.text)}>📋</button>
+							<button onClick={() => deletePrompt(prompts.indexOf(p))}>🗑</button>
+						</div>
 					</div>
 				))}
 			</div>
