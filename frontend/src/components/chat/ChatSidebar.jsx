@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 import "./ChatSidebar.css";
 
-const socket = io("http://localhost:5000");
+const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
 
 const ChatSidebar = ({ sessionId, name }) => {
   const [messages, setMessages] = useState([]);

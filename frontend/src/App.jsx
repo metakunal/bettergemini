@@ -18,13 +18,13 @@ const App = () => {
     if (sessionFromUrl) {
       setSessionId(sessionFromUrl);
     } else {
-      fetch("http://localhost:5000/generateSession")
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/generateSession`)
         .then((res) => res.json())
         .then((data) => setSessionId(data.sessionId));
     }
 
     if (!sessionFromUrl) {
-      fetch("http://localhost:5000/generateSession")
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/generateSession`)
         .then((res) => res.json())
         .then((data) => {
           setSessionId(data.sessionId);

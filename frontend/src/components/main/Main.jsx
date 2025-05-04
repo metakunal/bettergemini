@@ -30,7 +30,7 @@ const Main = ({name}) => {
 			setSessionId(sessionFromUrl);
 			socket.emit("joinSession", { name: "User", sessionId: sessionFromUrl });
 		} else {
-			fetch("http://localhost:5000/generateSession")
+			fetch(`${import.meta.env.VITE_BACKEND_URL}/generateSession`)
 				.then((res) => res.json())
 				.then((data) => {
 					setSessionId(data.sessionId);
@@ -41,7 +41,7 @@ const Main = ({name}) => {
 	}, []);
 
 
-	const socket = io("http://localhost:5000", {
+	const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
 		transports: ["websocket", "polling"]
 	});
 
@@ -153,7 +153,7 @@ const Main = ({name}) => {
 				) : (
 					<div className="result">
 						<div className="result-title">
-							<img src={assets.user} alt="" />
+							<img src={assets.user_icon} alt="" />
 							<p>{recentPrompt}</p>
 						</div>
 						<div className="result-data">
