@@ -24,12 +24,6 @@ const Sidebar = () => {
 						setExtended((prev) => !prev);
 					}}
 				/>
-				<img
-					src={assets.bookmark_icon}
-					className="menu"
-					alt="bookmark-icon"
-					onClick={() => setShowSavedPrompts(true)}
-				/>
 				{showSavedPrompts && (
 	<SavedPromptsModal onClose={() => setShowSavedPrompts(false)} />
 )}
@@ -57,12 +51,12 @@ const Sidebar = () => {
 			</div>
 			<div className="bottom">
 				<div className="bottom-item recent-entry">
-					<img src={assets.question_icon} alt="" />
-					{extended ? <p>Help desk</p> : null}
-				</div>
-				<div className="bottom-item recent-entry">
-					<img src={assets.history_icon} alt="" />
-					{extended ? <p>History</p> : null}
+				<img
+					src={assets.bookmark_icon}
+					alt="bookmark-icon"
+					onClick={() => setShowSavedPrompts(true)}
+				/>
+				{extended ? <p>Bookmarks</p> : null}
 				</div>
 				<div className="bottom-item recent-entry">
 					<img src={assets.setting_icon} alt="" />
