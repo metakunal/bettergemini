@@ -172,25 +172,52 @@ const Main = () => {
 				)}
 
 				<div className="main-bottom">
-					<div className="search-box">
-						<input
-							onChange={(e) => {
-								setInput(e.target.value);
-							}}
-							value={input}
-							type="text"
-							placeholder="Enter the Prompt Here"
-						/>
-						<div>
-							<img src={assets.gallery_icon} alt="" />
-							<img src={assets.mic_icon} alt="" />
-							<img
-								src={assets.send_icon}
-								alt=""
-								onClick={handleSendPrompt}
-							/>
-						</div>
-					</div>
+				<div className="search-box">
+    <div className="search-box-input-container">
+        <textarea
+		 ref={(el) => {
+			if (el) {
+				// Auto-resize whenever content changes
+				el.style.height = 'auto';
+				el.style.height = `${Math.min(el.scrollHeight, 200)}px`;
+			}
+		}}
+            onChange={(e) => {
+                setInput(e.target.value);
+                // Auto-resize the textarea
+                e.target.style.height = 'auto';
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+            }}
+			onPaste={(e) => {
+                // Handle paste and resize
+                setTimeout(() => {
+                    e.target.style.height = 'auto';
+                    e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+                }, 0);
+            }}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendPrompt();
+                }
+            }}
+            value={input}
+            placeholder="Enter the Prompt Here"
+            rows="1"
+            style={{ height: '24px' }}
+        />
+    </div>
+    <div className="search-box-icons">
+        <img src={assets.gallery_icon} alt="Attach" />
+        <img src={assets.mic_icon} alt="Voice input" />
+        <img 
+            src={assets.send_icon} 
+            alt="Send" 
+            onClick={handleSendPrompt}
+            style={{ opacity: input.trim() ? 1 : 0.5 }}
+        />
+    </div>
+</div>
 					<div className="bottom-info">
 						<p>
 							Gemini may display inaccurate info, including about people, so

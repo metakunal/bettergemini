@@ -68,31 +68,72 @@
     padding: 0px 20px;
     margin: auto;
 }
-.search-box{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    background-color: #f0f4f9;
-    padding: 10px 20px;
-    border-radius: 50px;
-}
-.search-box img{
-    width: 24px;
-    cursor: pointer;
-}
-.search-box input{
-    flex: 1;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    padding: 8px;
-    font-size: 18px;
-}
-.search-box div{
+/* Update only the search box related CSS */
+/* Search Box Container */
+.search-box {
     display: flex;
     align-items: center;
     gap: 15px;
+    background-color: #f8f9fa;
+    padding: 8px 20px;
+    border-radius: 24px;
+    border: 1px solid #dadce0;
+    min-height: 56px;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.search-box:focus-within {
+    border-color: #1a73e8;
+    box-shadow: 0 1px 6px rgba(26, 115, 232, 0.24);
+}
+
+/* Input Container - handles the expanding behavior */
+.search-box-input-container {
+    flex: 1;
+    display: flex;
+    min-height: 24px;
+    max-height: 200px;
+    overflow-y: hidden;
+    align-items: center;
+}
+
+/* Textarea styling */
+.search-box textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    font-size: 16px;
+    color: #202124;
+    line-height: 24px;
+    resize: none;
+    overflow-y: hidden;
+    min-height: 24px;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    margin: 0;
+}
+
+/* Icons container */
+.search-box-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.search-box img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.search-box img:hover {
+    opacity: 1;
 }
 .main .bottom-info{
     font-size: 13px;
