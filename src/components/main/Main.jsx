@@ -1,28 +1,94 @@
-import { useContext,useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { assets } from "../../assets/assets";
 import "./main.css";
 import { Context } from "../../context/Context";
 import UsageDashboard from "../UsageDashboard";
+import io from "socket.io-client";
 
 const Main = () => {
 	const {
 		onSent,
 		recentPrompt,
+		setRecentPrompt,
 		showResults,
+		setShowResults,
 		loading,
 		resultData,
+		setResultData,
 		setInput,
 		input,
 	} = useContext(Context);
 
-	const [showDashboard, setShowDashboard] = useState(false);
 
-    const handleCardClick = (promptText) => {
-			setInput(promptText);
+	const [showDashboard, setShowDashboard] = useState(false);
+	const [sessionId, setSessionId] = useState(null);
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const sessionFromUrl = urlParams.get("sessionId");
+
+		if (sessionFromUrl) {
+			setSessionId(sessionFromUrl);
+			socket.emit("joinSession", { name: "User", sessionId: sessionFromUrl });
+		} else {
+			fetch("http://localhost:5000/generateSession")
+				.then((res) => res.json())
+				.then((data) => {
+					setSessionId(data.sessionId);
+					window.history.replaceState(null, "", `?sessionId=${data.sessionId}`);
+					socket.emit("joinSession", { name: "User", sessionId: data.sessionId });
+				});
+		}
+	}, []);
+
+
+	const socket = io("http://localhost:5000", {
+		transports: ["websocket", "polling"]
+	});
+
+	useEffect(() => {
+		socket.on("receivePrompt", ({ prompt, result }) => {
+			setShowResults(true);
+			setRecentPrompt(prompt);
+			setResultData(result);
+		});
+
+		return () => {
+			socket.off("receivePrompt");
 		};
+	}, []);
+
+	const handleCardClick = (promptText) => {
+		setInput(promptText);
+	};
+
+	const handleSendPrompt = async () => {
+		if (!input.trim() || !sessionId) return;
+
+		setInput("");
+		setShowResults(true);
+		setRecentPrompt(input);
+
+		const promptToSend = input;
+
+		const result = await onSent(promptToSend);
+
+		setResultData(result);
+
+		// Emit to everyone else
+		socket.emit("promptSubmitted", {
+			sessionId,
+			prompt: promptToSend,
+			result,
+		});
+	};
+
+
+
+
+
 	return (
 		<div className="main">
-			{showDashboard && <UsageDashboard onClose={()=>setShowDashboard(false)}/>}
+			{showDashboard && <UsageDashboard onClose={() => setShowDashboard(false)} />}
 			<div className="nav">
 				<p>Gemini</p>
 				<img
@@ -121,9 +187,7 @@ const Main = () => {
 							<img
 								src={assets.send_icon}
 								alt=""
-								onClick={() => {
-									onSent();
-								}}
+								onClick={handleSendPrompt}
 							/>
 						</div>
 					</div>

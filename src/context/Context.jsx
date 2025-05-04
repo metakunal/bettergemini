@@ -25,42 +25,52 @@ const ContextProvider = (props) => {
 		setResultData("");
 		setLoading(true);
 		setShowResults(true);
-        let response;
-        if(prompt !== undefined){
-            response = await runChat(prompt);
-            setRecentPrompt(prompt)
-        }else{
-            setPrevPrompts(prev=>[...prev,input]);
-            setRecentPrompt(input);
-            response=await runChat(input);
-        }
-		
+	  
+		let responseText = "";
 		try {
-			
-			
-			let responseArray = response.split("**");
-            let newResponse = "";
-			for (let i = 0; i < responseArray.length; i++) {
-				if (i === 0 || i % 2 !== 1) {
-					newResponse += responseArray[i];
-				} else {
-					newResponse += "<b>" + responseArray[i] + "</b>";
-				}
+		  let response;
+	  
+		  if (prompt !== undefined) {
+			response = await runChat(prompt);
+			setRecentPrompt(prompt);
+		  } else {
+			setPrevPrompts(prev => [...prev, input]);
+			setRecentPrompt(input);
+			response = await runChat(input);
+		  }
+	  
+		  // Format the response
+		  let responseArray = response.split("**");
+		  let newResponse = "";
+		  for (let i = 0; i < responseArray.length; i++) {
+			if (i === 0 || i % 2 !== 1) {
+			  newResponse += responseArray[i];
+			} else {
+			  newResponse += "<b>" + responseArray[i] + "</b>";
 			}
-			let newResponse2 = newResponse.split("*").join("<br/>");
-			let newResponseArray = newResponse2.split("");
-			for (let i = 0; i < newResponseArray.length; i++) {
-				const nextWord = newResponseArray[i];
-				delayPara(i, nextWord + "");
-			}
+		  }
+	  
+		  let newResponse2 = newResponse.split("*").join("<br/>");
+		  responseText = newResponse2;
+	  
+		  // Animate output for current session
+		  let newResponseArray = responseText.split("");
+		  for (let i = 0; i < newResponseArray.length; i++) {
+			const nextWord = newResponseArray[i];
+			delayPara(i, nextWord);
+		  }
+	  
 		} catch (error) {
-			console.error("Error while running chat:", error);
-			// Handle error appropriately
+		  console.error("Error while running chat:", error);
+		  responseText = "An error occurred.";
 		} finally {
-			setLoading(false);
-			setInput("");
+		  setLoading(false);
+		  setInput("");
 		}
-	};
+	  
+		return responseText; 
+	  };
+	  
 
 	const contextValue = {
 		prevPrompts,
@@ -74,6 +84,12 @@ const ContextProvider = (props) => {
 		loading,
 		resultData,
 		newChat,
+		showResults,
+		setShowResults,
+		recentPrompt,
+		setRecentPrompt,
+		resultData,
+		setResultData,
 	};
 
 	return (

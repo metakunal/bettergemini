@@ -9,36 +9,36 @@ const app = express();
 app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
-  cors: { origin: "*" }
+  cors: { origin: "*" },
+  methods: ["GET", "POST"]
 });
+
+  
 
 const sessions = {};
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
-
-  socket.on("joinSession", ({ name, sessionId }) => {
-    if (!sessions[sessionId]) {
-      sessions[sessionId] = [];
-    }
-    socket.join(sessionId);
-    sessions[sessionId].push({ id: socket.id, name });
-    io.to(sessionId).emit("chatMessage", {
-      sender: "System",
-      text: `${name} joined the chat.`,
+    console.log("A user connected");
+  
+    socket.on("joinSession", ({ name, sessionId }) => {
+      socket.join(sessionId);
+      console.log(`${name} joined session: ${sessionId}`);
+    });
+  
+    // New: Prompt submission broadcast
+    socket.on("promptSubmitted", ({ sessionId, prompt, result }) => {
+      io.to(sessionId).emit("receivePrompt", { prompt, result });
+    });
+  
+    socket.on("sendMessage", ({ sessionId, sender, message }) => {
+      io.to(sessionId).emit("chatMessage", { sender, text: message });
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("A user disconnected");
     });
   });
-
-  socket.on("sendMessage", ({ sessionId, message, sender }) => {
-    io.to(sessionId).emit("chatMessage", { sender, text: message });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-    // Optional: Handle disconnection from sessions
-  });
-});
-
+  
 app.get("/generateSession", (req, res) => {
   const sessionId = uuidv4();
   res.json({ sessionId });
