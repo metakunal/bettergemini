@@ -103,7 +103,7 @@ const Main = () => {
 					<>
 						<div className="greet">
 							<p>
-								<span>Hello , Dev </span>
+								<span>Hello , Kunal </span>
 							</p>
 							<p>How Can i Help You Today?</p>
 						</div>
@@ -111,41 +111,41 @@ const Main = () => {
 							<div
 								className="card"
 								onClick={() =>
-									handleCardClick("Suggest Some Place To Visit In India.")
+									handleCardClick("Help me plan a [Number] day trip to [Destination]. I'm interested in [Interests, e.g., historical sites, beaches, food]. My budget is approximately [Budget] and I'll be traveling with [Travel companions, e.g., family, friends, solo]. Please include suggestions for [Specific requests, e.g., accommodation, transportation, specific activities].")
 								}
 							>
-								<p>Suggest Some Place To Visit In India.</p>
+								<p>Plan an Itinerary.</p>
 								<img src={assets.compass_icon} alt="" />
 							</div>
 							<div
 								className="card"
 								onClick={() =>
 									handleCardClick(
-										"Explain the process of photosynthesis in simple terms"
+										"Write a cover letter for a [Job title] position at [Company name]. My key skills and experiences include [List 2-3 key skills/experiences relevant to the job]. The job description mentions [Mention 1-2 specific requirements or keywords from the job description]. I am particularly interested in [Mention something specific that excites you about the company or role]."
 									)
 								}
 							>
-								<p>Explain the process of photosynthesis in simple terms </p>
+								<p>Write a Cover Letter for Me </p>
 								<img src={assets.message_icon} alt="" />
 							</div>
 							<div
 								className="card"
 								onClick={() =>
-									handleCardClick("How do you create a responsive navbar using CSS and JavaScript?")
+									handleCardClick("I want to [Your goal, e.g., learn a new language, exercise regularly, write a book]. I have approximately [Time availability] per day/week to dedicate to this goal. My current habits are [Mention any relevant current habits]. Please create a daily/weekly routine that includes [Specific elements you want in the routine, e.g., specific times, types of activities, tracking methods] to help me achieve this goal.")
 								}
 							>
-								<p>How do you create a responsive navbar using CSS and JavaScript?</p>
+								<p>Create a Routine for a Goal.</p>
 								<img src={assets.bulb_icon} alt="" />
 							</div>
 							<div
 								className="card"
 								onClick={() => {
 									handleCardClick(
-										"What are some essential skills for becoming a front-end developer?"
+										"I want to learn how to code in [Programming language]. I'm a [Your current experience level, e.g., complete beginner, some experience with another language]. My goal is to [Your goal, e.g., build a website, analyze data, create mobile apps]. Can you provide a [Specific requests, e.g., step-by-step learning plan, resources for beginners, example projects]?"
 									);
 								}}
 							>
-								<p>What are some essential skills for becoming a front-end developer?</p>
+								<p>Learn to Code.</p>
 								<img src={assets.code_icon} alt="" />
 							</div>
 						</div>
