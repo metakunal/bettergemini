@@ -4,12 +4,13 @@ import Sidebar from "./components/sidebar/Sidebar";
 import ChatSidebar from "./components/chat/ChatSidebar";
 
 const App = () => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Champ");
   const [sessionId, setSessionId] = useState("");
 
   useEffect(() => {
     const username = prompt("Enter your name:");
-    setName(username);
+    if (username !== null && username !== "")
+      setName(username);
   
     const urlParams = new URLSearchParams(window.location.search);
     const sessionFromUrl = urlParams.get("sessionId");
@@ -37,7 +38,7 @@ const App = () => {
     <>
       <ChatSidebar name={name} sessionId={sessionId} />
       <Sidebar />
-      <Main />
+      <Main name={name}/>
     </>
   );
 };

@@ -5,7 +5,7 @@ import { Context } from "../../context/Context";
 import UsageDashboard from "../UsageDashboard";
 import io from "socket.io-client";
 
-const Main = () => {
+const Main = ({name}) => {
 	const {
 		onSent,
 		recentPrompt,
@@ -92,7 +92,7 @@ const Main = () => {
 			<div className="nav">
 				<p>Gemini</p>
 				<img
-					src={assets.user}
+					src={assets.user_icon}
 					alt=""
 					onClick={() => setShowDashboard(true)}
 					style={{ cursor: "pointer" }}
@@ -103,7 +103,7 @@ const Main = () => {
 					<>
 						<div className="greet">
 							<p>
-								<span>Hello , Kunal </span>
+								<span>Hello , {name} </span>
 							</p>
 							<p>How Can i Help You Today?</p>
 						</div>
