@@ -1,0 +1,104 @@
+.dashboard-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  }
+  
+  .dashboard {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  
+  .dashboard h2 {
+    color: #202124;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard h3 {
+    color: #5f6368;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  
+  .stats {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .stats p {
+    color: #3c4043;
+    margin: 8px 0;
+    font-size: 0.9rem;
+  }
+  
+  .stats strong {
+    color: #202124;
+    font-weight: 500;
+  }
+  
+  .chart-container {
+    margin-bottom: 24px;
+  }
+  
+  .close-btn {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+  }
+  
+  .close-btn:hover {
+    background-color: #1765cc;
+  }
+  
+  /* Recharts styling to match Gemini */
+  .recharts-cartesian-grid line {
+    stroke: #e8eaed;
+  }
+  
+  .recharts-x-axis .recharts-cartesian-axis-tick line,
+  .recharts-y-axis .recharts-cartesian-axis-tick line {
+    stroke: transparent;
+  }
+  
+  .recharts-tooltip {
+    background-color: white !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid #dadce0 !important;
+    padding: 8px 12px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  .recharts-tooltip-label {
+    color: #5f6368 !important;
+    font-weight: 500 !important;
+  }
+  
+  .recharts-bar {
+    rx: 4px;
+    ry: 4px;
+  }

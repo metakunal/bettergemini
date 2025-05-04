@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { assets } from "../../assets/assets";
 import "./main.css";
 import { Context } from "../../context/Context";
+import UsageDashboard from "../UsageDashboard";
+
 const Main = () => {
 	const {
 		onSent,
@@ -13,14 +15,22 @@ const Main = () => {
 		input,
 	} = useContext(Context);
 
+	const [showDashboard, setShowDashboard] = useState(false);
+
     const handleCardClick = (promptText) => {
 			setInput(promptText);
 		};
 	return (
 		<div className="main">
+			{showDashboard && <UsageDashboard onClose={()=>setShowDashboard(false)}/>}
 			<div className="nav">
 				<p>Gemini</p>
-				<img src={assets.user} alt="" />
+				<img
+					src={assets.user}
+					alt=""
+					onClick={() => setShowDashboard(true)}
+					style={{ cursor: "pointer" }}
+				/>
 			</div>
 			<div className="main-container">
 				{!showResults ? (
