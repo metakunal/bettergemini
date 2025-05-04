@@ -44,6 +44,10 @@ app.get("/generateSession", (req, res) => {
   res.json({ sessionId });
 });
 
+app.get("/",(req,res)=>{
+  res.json("Server running");
+})
+
 server.listen(5000, () => {
   console.log("Server running on port 5000");
 });
