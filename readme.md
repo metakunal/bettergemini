@@ -18,13 +18,13 @@ BetterGemini is a collaborative AI chat application built using the **Gemini API
   - Track token usage
   - View average cost per prompt
   - Analyze weekly usage with charts using `Recharts`
-- ⚡ **Fast & Clean UI**: Built with React and styled using `TailwindCSS` for responsiveness and speed.
+- ⚡ **Fast & Clean UI**: Built with React and styled for responsiveness and speed.
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React, TailwindCSS, Recharts
+- **Frontend**: React, Recharts
 - **Backend**: Express, Gemini API, Socket.IO
 - **Deployment**: Vercel
 
